@@ -124,8 +124,8 @@ Click **Save Changes**
    ```typescript
    export const environment = {
      production: true,
-     apiUrl: 'https://dgsc-backend.onrender.com/api',
-     baseUrl: 'https://dgsc-backend.onrender.com'
+     apiUrl: 'https://tybca.onrender.com/api',
+     baseUrl: 'https://tybca.onrender.com'
    };
    ```
 3. Commit and push changes:

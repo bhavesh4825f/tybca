@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://your-backend-url.onrender.com/api',
-  baseUrl: 'https://your-backend-url.onrender.com'
+  apiUrl: 'https://tybca.onrender.com/api',
+  baseUrl: 'https://tybca.onrender.com'
 };
