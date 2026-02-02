@@ -505,7 +505,7 @@ export class PaymentHistoryComponent implements OnInit {
     this.loading = true;
     const token = localStorage.getItem('token');
 
-    this.http.get('http://localhost:3000/api/payments/all/transactions', {
+    this.http.get('${environment.apiUrl}/payments/all/transactions', {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: (response: any) => {

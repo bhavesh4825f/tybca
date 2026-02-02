@@ -611,7 +611,7 @@ export class AllApplicationsComponent implements OnInit {
 
   autoAssign(applicationId: string): void {
     this.assigning = applicationId;
-    this.http.post(`http://localhost:3000/api/admin/applications/${applicationId}/auto-assign`, {}, { withCredentials: true })
+    this.http.post(`${environment.apiUrl}/admin/applications/${applicationId}/auto-assign`, {}, { withCredentials: true })
       .subscribe({
         next: (response: any) => {
           alert('Application assigned successfully!');
@@ -632,7 +632,7 @@ export class AllApplicationsComponent implements OnInit {
     }
 
     this.deleting = applicationId;
-    this.http.delete(`http://localhost:3000/api/admin/applications/${applicationId}`, { withCredentials: true })
+    this.http.delete(`${environment.apiUrl}/admin/applications/${applicationId}`, { withCredentials: true })
       .subscribe({
         next: () => {
           alert('Application deleted successfully!');

@@ -486,7 +486,7 @@ export class MyPaymentsComponent implements OnInit {
     this.loading = true;
     const token = localStorage.getItem('token');
 
-    this.http.get('http://localhost:3000/api/payments/my/transactions', {
+    this.http.get('${environment.apiUrl}/payments/my/transactions', {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: (response: any) => {

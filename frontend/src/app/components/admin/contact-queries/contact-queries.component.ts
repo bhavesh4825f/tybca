@@ -501,7 +501,7 @@ export class ContactQueriesComponent implements OnInit {
     this.loading = true;
     const token = localStorage.getItem('token');
     
-    this.http.get('http://localhost:3000/api/contact/queries', {
+    this.http.get('${environment.apiUrl}/contact/queries', {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: (response: any) => {
@@ -535,7 +535,7 @@ export class ContactQueriesComponent implements OnInit {
   updateStatus(id: string, status: string): void {
     const token = localStorage.getItem('token');
     
-    this.http.put(`http://localhost:3000/api/contact/queries/${id}/status`, 
+    this.http.put(`${environment.apiUrl}/contact/queries/${id}/status`, 
       { status },
       { headers: { Authorization: `Bearer ${token}` } }
     ).subscribe({
@@ -556,7 +556,7 @@ export class ContactQueriesComponent implements OnInit {
 
     const token = localStorage.getItem('token');
     
-    this.http.delete(`http://localhost:3000/api/contact/queries/${id}`, {
+    this.http.delete(`${environment.apiUrl}/contact/queries/${id}`, {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: () => {

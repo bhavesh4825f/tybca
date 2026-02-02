@@ -2051,7 +2051,7 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    this.http.post('http://localhost:3000/api/contact/submit', this.contactForm)
+    this.http.post('${environment.apiUrl}/contact/submit', this.contactForm)
       .subscribe({
         next: (response: any) => {
           this.contactSuccess = true;
