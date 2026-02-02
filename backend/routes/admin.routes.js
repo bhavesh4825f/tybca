@@ -14,8 +14,12 @@ const {
   getDashboardStats,
   uploadCompletedDocument,
   deleteApplication,
-  addRemark
+  addRemark,
+  initializeAdmin
 } = require('../controllers/admin.controller');
+
+// Public route to initialize admin (one-time setup)
+router.post('/initialize', initializeAdmin);
 
 // All routes require authentication and admin role
 router.use(protect);
