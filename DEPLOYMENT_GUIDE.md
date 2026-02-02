@@ -93,6 +93,8 @@ git push -u origin main
    - **Start Command**: `npm start`
    - **Instance Type**: Free
 
+⚠️ **Important**: Make sure you use `npm start` (not `npm run dev`) for production!
+
 ### Step 3: Add Environment Variables
 In Render dashboard, go to **Environment** tab and add:
 
