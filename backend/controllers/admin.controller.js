@@ -1,6 +1,58 @@
 const User = require('../models/User.model');
 const Application = require('../models/Application.model');
 
+// @desc    Initialize admin user (one-time setup)
+// @route   POST /api/admin/initialize
+// @access  Public (but checks if admin exists)
+exports.initializeAdmin = async (req, res) => {
+  try {
+    // Check if any admin user exists
+    const existingAdmin = await User.findOne({ role: 'admin' });
+    if (existingAdmin) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Admin user already exists. Cannot initialize again.' 
+      });
+    }
+
+    // Admin user data
+    const adminData = {
+      name: 'Admin User',
+      email: 'admin@dgsc.com',
+      password: 'admin123',
+      phone: '9999999999',
+      role: 'admin',
+      address: {
+        street: 'Admin Street',
+        city: 'Admin City',
+        state: 'Admin State',
+        pincode: '000000'
+      },
+      isActive: true
+    };
+
+    // Create admin user
+    const admin = await User.create(adminData);
+    
+    res.status(201).json({ 
+      success: true, 
+      message: 'Admin user created successfully!',
+      data: {
+        email: admin.email,
+        role: admin.role,
+        note: 'Password is admin123'
+      }
+    });
+  } catch (error) {
+    console.error('Error initializing admin:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Server error', 
+      error: error.message 
+    });
+  }
+};
+
 // @desc    Get all users
 // @route   GET /api/admin/users
 // @access  Private (Admin)
