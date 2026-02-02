@@ -319,5 +319,19 @@ Your Digital Government Service Consultancy application is now live and accessib
 - **Render Dashboard**: https://dashboard.render.com
 - **Vercel Dashboard**: https://vercel.com/dashboard
 - **Netlify Dashboard**: https://app.netlify.com
-- **Your Backend**: https://[your-app].onrender.com
-- **Your Frontend**: https://[your-app].vercel.app or .netlify.app
+- **Your Backend**: https://tybca.onrender.com
+- **Your Frontend**: https://tybca.vercel.app
+
+---
+
+## 🎯 Your Live Application
+
+**Frontend URL:** https://tybca.vercel.app
+**Backend API:** https://tybca.onrender.com/api
+
+**Admin Login:**
+- Email: `admin@dgsc.com`
+- Password: `admin123`
+
+⚠️ **Important:** Change the admin password after first login!
+
