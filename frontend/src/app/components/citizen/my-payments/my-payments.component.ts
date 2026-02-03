@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-my-payments',
@@ -580,16 +581,18 @@ export class MyPaymentsComponent implements OnInit {
     this.loading = true;
     const token = localStorage.getItem('token');
 
-    this.http.get('${environment.apiUrl}/payments/my/transactions', {
+    this.http.get(`${environment.apiUrl}/payments/my/transactions`, {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: (response: any) => {
-        this.transactions = response.data;
+        this.transactions = response.data || [];
         this.applyFilters();
         this.loading = false;
       },
       error: (error) => {
         console.error('Error loading transactions:', error);
+        this.transactions = [];
+        this.filteredTransactions = [];
         this.loading = false;
       }
     });
