@@ -24,7 +24,13 @@ import { HttpClient } from '@angular/common/http';
               <p class="brand-subtitle">Digital Government Service Consultancy</p>
             </div>
           </div>
-          <ul class="nav-menu">
+          
+          <!-- Mobile Menu Toggle -->
+          <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" *ngIf="!isLoggedIn || true">
+            <span class="hamburger" [class.active]="mobileMenuOpen"></span>
+          </button>
+
+          <ul class="nav-menu" [class.mobile-active]="mobileMenuOpen">
             <li><a href="#home" class="nav-link">Home</a></li>
             <li><a href="#services" class="nav-link">Services</a></li>
             <li><a href="#about" class="nav-link">About Us</a></li>
@@ -668,6 +674,10 @@ import { HttpClient } from '@angular/common/http';
       list-style: none;
       gap: 2rem;
       align-items: center;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
     }
 
     .nav-link {
@@ -1943,8 +1953,105 @@ import { HttpClient } from '@angular/common/http';
     }
 
     @media (max-width: 768px) {
+      .container {
+        padding: 0 1rem;
+      }
+
+      .logo-circle {
+        width: 50px;
+        height: 50px;
+      }
+
+      .brand-title {
+        font-size: 1.2rem;
+      }
+
+      .brand-subtitle {
+        font-size: 0.65rem;
+      }
+
+      .mobile-menu-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 1001;
+      }
+
+      .hamburger {
+        position: relative;
+        width: 25px;
+        height: 2px;
+        background: #334155;
+        transition: all 0.3s;
+      }
+
+      .hamburger::before,
+      .hamburger::after {
+        content: '';
+        position: absolute;
+        width: 25px;
+        height: 2px;
+        background: #334155;
+        transition: all 0.3s;
+      }
+
+      .hamburger::before {
+        top: -8px;
+      }
+
+      .hamburger::after {
+        top: 8px;
+      }
+
+      .hamburger.active {
+        background: transparent;
+      }
+
+      .hamburger.active::before {
+        top: 0;
+        transform: rotate(45deg);
+      }
+
+      .hamburger.active::after {
+        top: 0;
+        transform: rotate(-45deg);
+      }
+
       .nav-menu {
+        position: fixed;
+        top: 70px;
+        right: -100%;
+        width: 280px;
+        height: calc(100vh - 70px);
+        background: white;
+        flex-direction: column;
+        padding: 2rem 1rem;
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+        transition: right 0.3s ease;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+
+      .nav-menu.mobile-active {
+        right: 0;
+      }
+
+      .nav-link::after {
         display: none;
+      }
+
+      .dropdown-menu {
+        position: static;
+        box-shadow: none;
+        border: 1px solid #e2e8f0;
+        margin-top: 0.5rem;
       }
 
       .hero-title {
@@ -2006,6 +2113,7 @@ export class HomeComponent implements OnInit {
   contactError = '';
   dropdownOpen = false;
   userDropdownOpen = false;
+  mobileMenuOpen = false;
 
   constructor(
     private serviceService: ServiceService,
@@ -2024,6 +2132,9 @@ export class HomeComponent implements OnInit {
       if (!target.closest('.dropdown')) {
         this.dropdownOpen = false;
         this.userDropdownOpen = false;
+      }
+      if (!target.closest('.nav-menu') && !target.closest('.mobile-menu-toggle')) {
+        this.mobileMenuOpen = false;
       }
     });
   }
@@ -2129,6 +2240,11 @@ export class HomeComponent implements OnInit {
     this.isLoggedIn = false;
     this.currentUser = null;
     this.userDropdownOpen = false;
+    this.mobileMenuOpen = false;
     window.location.reload();
+  }
+
+  toggleMobileMenu(): void {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
   }
 }
