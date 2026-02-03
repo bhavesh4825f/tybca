@@ -57,6 +57,7 @@ import { AuthService } from '../../services/auth.service';
       align-items: center;
       min-height: 100vh;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 15px;
     }
 
     .login-card {
@@ -95,6 +96,21 @@ import { AuthService } from '../../services/auth.service';
     .register-link a {
       color: #667eea;
       text-decoration: none;
+    }
+
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 25px 20px;
+      }
+
+      h2 {
+        font-size: 18px;
+      }
+
+      h3 {
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
     }
   `]
 })
@@ -148,7 +164,16 @@ export class LoginComponent implements OnInit {
         },
         error: (error) => {
           this.loading = false;
-          this.errorMessage = error.error?.message || 'Login failed. Please try again.';
+          console.error('Login error:', error);
+          if (error.status === 0) {
+            this.errorMessage = 'Cannot connect to server. Please check your connection or contact support.';
+          } else if (error.status === 401) {
+            this.errorMessage = 'Invalid credentials. Please check your email and password.';
+          } else if (error.status === 403) {
+            this.errorMessage = 'Account is inactive. Please contact administrator.';
+          } else {
+            this.errorMessage = error.error?.message || 'Login failed. Please try again.';
+          }
         }
       });
   }

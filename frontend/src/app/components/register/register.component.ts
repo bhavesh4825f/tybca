@@ -91,7 +91,7 @@ import { AuthService } from '../../services/auth.service';
       align-items: center;
       min-height: 100vh;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 20px;
+      padding: 15px;
     }
 
     .register-card {
@@ -123,6 +123,21 @@ import { AuthService } from '../../services/auth.service';
     .login-link a {
       color: #667eea;
       text-decoration: none;
+    }
+
+    @media (max-width: 480px) {
+      .register-card {
+        padding: 25px 20px;
+      }
+
+      h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 12px;
+      }
     }
   `]
 })
@@ -163,7 +178,14 @@ export class RegisterComponent {
         },
         error: (error) => {
           this.loading = false;
-          this.errorMessage = error.error?.message || 'Registration failed. Please try again.';
+          console.error('Registration error:', error);
+          if (error.status === 0) {
+            this.errorMessage = 'Cannot connect to server. Please check your connection or contact support.';
+          } else if (error.status === 400) {
+            this.errorMessage = error.error?.message || 'Invalid registration data. Please check your details.';
+          } else {
+            this.errorMessage = error.error?.message || 'Registration failed. Please try again.';
+          }
         }
       });
   }

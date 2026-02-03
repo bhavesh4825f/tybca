@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-contact-queries',
@@ -501,7 +502,7 @@ export class ContactQueriesComponent implements OnInit {
     this.loading = true;
     const token = localStorage.getItem('token');
     
-    this.http.get('${environment.apiUrl}/contact/queries', {
+    this.http.get(`${environment.apiUrl}/contact/queries`, {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: (response: any) => {

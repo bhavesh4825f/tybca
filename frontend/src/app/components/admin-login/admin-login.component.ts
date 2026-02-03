@@ -179,6 +179,30 @@ import { AuthService } from '../../services/auth.service';
     .link-button:hover {
       color: #764ba2;
     }
+
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 25px 20px;
+      }
+
+      .login-header h2 {
+        font-size: 20px;
+      }
+
+      .login-header p {
+        font-size: 13px;
+      }
+
+      .form-control {
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      .btn {
+        padding: 10px 16px;
+        font-size: 15px;
+      }
+    }
   `]
 })
 export class AdminLoginComponent {
@@ -221,7 +245,16 @@ export class AdminLoginComponent {
         this.loading = false;
       },
       error: (error) => {
-        this.errorMessage = error.error?.message || 'Login failed. Please check your credentials.';
+        console.error('Login error:', error);
+        if (error.status === 0) {
+          this.errorMessage = 'Cannot connect to server. Please check your connection or contact support.';
+        } else if (error.status === 401) {
+          this.errorMessage = 'Invalid credentials. Please check your email and password.';
+        } else if (error.status === 403) {
+          this.errorMessage = 'Account is inactive. Please contact administrator.';
+        } else {
+          this.errorMessage = error.error?.message || 'Login failed. Please try again later.';
+        }
         this.loading = false;
       }
     });

@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ApplicationService } from '../../../services/application.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-all-applications',
