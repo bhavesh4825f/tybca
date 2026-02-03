@@ -9,7 +9,21 @@ import { AuthService } from '../../../services/auth.service';
   imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
   template: `
     <div class="dashboard-container">
-      <nav class="sidebar">
+      <!-- Mobile Header -->
+      <div class="mobile-header">
+        <button class="hamburger-btn" (click)="toggleSidebar()">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+        <div class="mobile-logo">EMPLOYEE</div>
+        <div class="mobile-avatar">{{ initials }}</div>
+      </div>
+
+      <!-- Overlay for mobile -->
+      <div class="sidebar-overlay" [class.active]="sidebarOpen" (click)="closeSidebar()"></div>
+
+      <nav class="sidebar" [class.mobile-open]="sidebarOpen">
         <div class="sidebar-header">
           <div class="logo">
             <div class="logo-text">
@@ -287,24 +301,142 @@ import { AuthService } from '../../../services/auth.service';
       }
     }
 
+    /* Mobile Styles */
     @media (max-width: 768px) {
-      .dashboard-container {
+      .mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+        color: white;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1001;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .hamburger-btn {
+        background: none;
+        border: none;
+        padding: 8px;
+        cursor: pointer;
+        display: flex;
         flex-direction: column;
+        gap: 4px;
+      }
+
+      .hamburger-line {
+        width: 24px;
+        height: 2px;
+        background: white;
+        border-radius: 2px;
+        transition: all 0.3s;
+      }
+
+      .mobile-logo {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: white;
+      }
+
+      .mobile-avatar {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.75rem;
+        color: white;
+      }
+
+      .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+      }
+
+      .sidebar-overlay.active {
+        display: block;
       }
 
       .sidebar {
-        width: 100%;
-        position: relative;
+        position: fixed;
+        left: -100%;
+        top: 0;
+        width: 280px;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s ease;
+      }
+
+      .sidebar.mobile-open {
+        left: 0;
       }
 
       .main-content {
-        padding: 20px;
+        padding: 70px 12px 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .sidebar {
+        width: 85%;
+      }
+
+      .main-content {
+        padding: 65px 8px 8px;
+      }
+
+      .nav-menu a {
+        padding: 10px 12px;
+        font-size: 0.875rem;
+      }
+
+      .sidebar-header {
+        padding: 20px 16px;
+      }
+
+      .user-info {
+        padding: 10px;
+      }
+
+      .avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 0.8125rem;
+      }
+
+      .user-name {
+        font-size: 0.8125rem;
+      }
+    }
+
+    /* Hide mobile header on desktop */
+    @media (min-width: 769px) {
+      .mobile-header {
+        display: none;
+      }
+
+      .sidebar-overlay {
+        display: none;
       }
     }
   `]
 })
 export class EmployeeDashboardComponent implements OnInit {
   currentUser: any;
+  sidebarOpen = false;
 
   constructor(private authService: AuthService) {}
 
@@ -319,6 +451,14 @@ export class EmployeeDashboardComponent implements OnInit {
       return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
     }
     return parts[0][0]?.toUpperCase() || 'E';
+  }
+
+  toggleSidebar(): void {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
+
+  closeSidebar(): void {
+    this.sidebarOpen = false;
   }
 
   logout(): void {
