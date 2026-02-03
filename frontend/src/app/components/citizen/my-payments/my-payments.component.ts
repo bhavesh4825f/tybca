@@ -464,6 +464,100 @@ import { HttpClient } from '@angular/common/http';
       .filter-select {
         width: 100%;
       }
+
+      .transactions-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .transaction-card {
+        padding: 1rem;
+      }
+
+      .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+
+      .amount-display {
+        font-size: 1.5rem;
+      }
+
+      .service-name {
+        font-size: 1rem;
+      }
+
+      .detail-value {
+        word-break: break-all;
+        font-size: 0.875rem;
+      }
+
+      .summary-stats {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .summary-item {
+        text-align: center;
+      }
+
+      .total-spent {
+        width: 100%;
+        padding: 0.875rem 1.25rem;
+      }
+
+      .total-spent .amount {
+        font-size: 1.5rem;
+      }
+
+      .page-header h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .my-payments-page {
+        padding: 0.5rem;
+      }
+
+      .page-header h2 {
+        font-size: 1.25rem;
+      }
+
+      .total-spent {
+        padding: 0.625rem 0.875rem;
+      }
+
+      .total-spent .amount {
+        font-size: 1.25rem;
+      }
+
+      .filters-section {
+        padding: 0.75rem;
+      }
+
+      .search-input {
+        padding: 0.75rem 2.5rem;
+        font-size: 0.875rem;
+      }
+
+      .transaction-card {
+        padding: 0.875rem;
+      }
+
+      .service-name {
+        font-size: 0.9375rem;
+      }
+
+      .amount-display {
+        font-size: 1.25rem;
+      }
+
+      .detail-label,
+      .detail-value {
+        font-size: 0.8125rem;
+      }
     }
   `]
 })

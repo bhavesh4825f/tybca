@@ -40,8 +40,32 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Static folder for uploads
-app.use('/uploads', express.static('uploads'));
+// Static folder for uploads with proper error handling
+const path = require('path');
+const fs = require('fs');
+
+// Ensure uploads directories exist
+const uploadsPath = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsPath)) {
+  fs.mkdirSync(uploadsPath, { recursive: true });
+  fs.mkdirSync(path.join(uploadsPath, 'documents'), { recursive: true });
+  fs.mkdirSync(path.join(uploadsPath, 'photos'), { recursive: true });
+}
+
+app.use('/uploads', express.static(uploadsPath));
+
+// Add a route to check if file exists before serving
+app.get('/uploads/:type/:filename', (req, res, next) => {
+  const filePath = path.join(uploadsPath, req.params.type, req.params.filename);
+  if (fs.existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    res.status(404).json({ 
+      success: false, 
+      message: 'File not found. Note: Files on free hosting are temporary and may be deleted on restart.' 
+    });
+  }
+});
 
 // Database connection
 mongoose.connect(process.env.MONGODB_URI)
@@ -60,22 +84,20 @@ app.use('/api/contact', contactRoutes);
 
 // File upload route
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-
-// Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, 'uploads', 'documents');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, uploadsDir);
+    const uploadType = file.fieldname === 'photo' ? 'photos' : 'documents';
+    const uploadDir = path.join(__dirname, 'uploads', uploadType);
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, 'doc-' + uniqueSuffix + path.extname(file.originalname));
+    const prefix = file.fieldname === 'photo' ? 'photo-' : 'doc-';
+    cb(null, prefix + uniqueSuffix + path.extname(file.originalname));
   }
 });
 
@@ -89,8 +111,16 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     if (!req.file) {
       return res.status(400).json({ success: false, message: 'No file uploaded' });
     }
-    const relativePath = 'documents/' + req.file.filename;
-    res.json({ success: true, path: relativePath, filename: req.file.filename });
+    const uploadType = req.file.fieldname === 'photo' ? 'photos' : 'documents';
+    const relativePath = uploadType + '/' + req.file.filename;
+    const fullUrl = `${req.protocol}://${req.get('host')}/uploads/${relativePath}`;
+    res.json({ 
+      success: true, 
+      path: relativePath, 
+      filename: req.file.filename,
+      url: fullUrl,
+      warning: 'Note: Files on free hosting are temporary and deleted on restart'
+    });
   } catch (error) {
     console.error('Upload error:', error);
     res.status(500).json({ success: false, message: 'Upload failed', error: error.message });
