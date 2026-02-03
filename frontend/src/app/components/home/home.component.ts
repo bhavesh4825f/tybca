@@ -2054,21 +2054,36 @@ import { HttpClient } from '@angular/common/http';
         margin-top: 0.5rem;
       }
 
+      .hero {
+        padding: 3rem 1rem;
+      }
+
       .hero-title {
-        font-size: 2.5rem;
+        font-size: 2rem;
+        line-height: 1.3;
       }
 
       .title-line {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
+      }
+
+      .hero-description {
+        font-size: 1rem;
+      }
+
+      .search-input {
+        font-size: 14px;
+        padding: 0.8rem 1rem 0.8rem 3rem;
       }
 
       .section-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
       }
 
       .features-grid,
       .services-grid-modern {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
       }
 
       .stats-cards {
@@ -2077,6 +2092,7 @@ import { HttpClient } from '@angular/common/http';
 
       .cta-buttons {
         flex-direction: column;
+        gap: 1rem;
       }
 
       .btn-primary,
@@ -2092,6 +2108,55 @@ import { HttpClient } from '@angular/common/http';
 
       .footer-brand-section {
         max-width: 100%;
+      }
+
+      .trust-badges {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        padding: 2rem 0.75rem;
+      }
+
+      .hero-title {
+        font-size: 1.75rem;
+      }
+
+      .title-line {
+        font-size: 1.25rem;
+      }
+
+      .hero-description {
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      .hero-badge {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+      }
+
+      .search-input {
+        font-size: 13px;
+        padding: 0.7rem 0.9rem 0.7rem 2.5rem;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.95rem;
+      }
+
+      .feature-card,
+      .service-card-modern {
+        padding: 1.25rem;
       }
     }
   `]
